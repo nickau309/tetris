@@ -2,7 +2,7 @@
 
 const defaultTheme = require("tailwindcss/defaultTheme");
 
-module.exports = {
+export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
@@ -20,10 +20,5 @@ module.exports = {
       },
     },
   },
-  safelist: [
-    {
-      pattern: /(bg|(border-(t|r|b|l)))-(I|J|L|O|S|T|Z)|w-(4|6)/,
-    },
-  ],
   plugins: [],
 };
