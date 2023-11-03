@@ -1,27 +1,38 @@
-# React + TypeScript + Vite
+# Tetris
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a web tetris game.
 
-Currently, two official plugins are available:
+## Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[**Deployed on GitHub Pages**](https://nickau309.github.io/tetris/)
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### TypeScript
 
-- Configure the top-level `parserOptions` property like this:
+- Perform static type checking to find potential type errors at compile time
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+### React
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Build the UI of the app
+- Handle the logic of the game with context and custom hooks
+- Built-in hooks used:
+  - `useCallback`
+  - `useContext`
+  - `useEffect`
+  - `useReducer`
+  - `useRef`
+
+### Tailwind CSS
+
+- Flexbox
+- Grid
+- Responsive design
+
+### ESLint
+
+- Analyze the code statically to identify and avoid errors
+
+### Prettier
+
+- Format the code in a consistent style
