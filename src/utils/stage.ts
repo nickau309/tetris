@@ -13,36 +13,19 @@ export function createStage(): Stage {
   return new Array(STAGE_HEIGHT).fill(null).map(createRow);
 }
 
-export function sweepRows(prevStage: Stage) {
-  // Check if any rows can be sweeped
-  let rowsSweeped = 0;
-
-  const stage = prevStage.reduce<Stage>((acc, row) => {
-    if (row.every((cell) => cell.status === "merged")) {
-      ++rowsSweeped;
-      acc.unshift(createRow());
-    } else {
-      acc.push(row);
-    }
-    return acc;
-  }, []);
-
-  return { stage, rowsSweeped };
-}
-
-export function updateStage(player: PlayerGameState, prevStage?: Stage): Stage {
-  const { type, rotation, x, y, collided } = player;
+export function updateStage(player: PlayerGameState, prevStage: Stage): Stage {
+  const { type, rotation, x, y } = player;
 
   // Flush the stage
-  const newStage =
-    prevStage?.map((row) => {
-      if (row.some((cell) => cell.type !== "0" && cell.status === "clear")) {
-        return row.map((cell) =>
-          cell.type !== "0" && cell.status === "clear" ? createCell() : cell,
-        );
+  const newStage: Stage = prevStage.map((row) => {
+    const newRow: Row = row.map((cell) => {
+      if (cell.status === "clear") {
+        return createCell();
       }
-      return row;
-    }) ?? createStage();
+      return cell;
+    });
+    return newRow;
+  });
 
   // Get the shadow distance of current tetromino
   const shadowY = getShadowDistance(player, newStage);
@@ -57,7 +40,6 @@ export function updateStage(player: PlayerGameState, prevStage?: Stage): Stage {
 
         const cell = newStage[y + j][x + i];
         cell.type = type;
-        cell.status = collided ? "merged" : "clear";
       }
     });
   });
@@ -65,16 +47,39 @@ export function updateStage(player: PlayerGameState, prevStage?: Stage): Stage {
   return newStage;
 }
 
-export function checkIfGameIsOver(stage: Stage) {
-  for (let rowIndex = 0; rowIndex < 2; ++rowIndex) {
-    for (const cell of stage[rowIndex]) {
-      if (cell.status === "merged") {
-        return true;
-      }
+export function mergeStage(stage: Stage): Stage {
+  const newStage: Stage = stage.map((row) => {
+    if (row.some((cell) => cell.type !== "0" && cell.status === "clear")) {
+      const newRow: Row = row.map((cell) => {
+        if (cell.type !== "0" && cell.status === "clear") {
+          const newCell: Cell = { ...cell, status: "merged" };
+          return newCell;
+        }
+        return cell;
+      });
+      return newRow;
     }
-  }
+    return row;
+  });
 
-  return false;
+  return newStage;
+}
+
+export function sweepRows(stage: Stage) {
+  // Check if any rows can be sweeped
+  let rowsSweeped = 0;
+
+  const newStage = stage.reduce<Stage>((acc, row) => {
+    if (row.every((cell) => cell.status === "merged")) {
+      ++rowsSweeped;
+      acc.unshift(createRow());
+    } else {
+      acc.push(row);
+    }
+    return acc;
+  }, []);
+
+  return { stage: newStage, rowsSweeped };
 }
 
 export function checkCollision(
@@ -101,6 +106,18 @@ export function checkCollision(
         ) {
           return true;
         }
+      }
+    }
+  }
+
+  return false;
+}
+
+export function checkIfGameIsOver(stage: Stage) {
+  for (let rowIndex = 0; rowIndex < 2; ++rowIndex) {
+    for (const cell of stage[rowIndex]) {
+      if (cell.status === "merged") {
+        return true;
       }
     }
   }

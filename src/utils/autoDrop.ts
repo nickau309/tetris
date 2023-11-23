@@ -11,9 +11,16 @@ export function getAutoDrop(level: number): AutoDropGameState {
   return { timestamp, dropTime, lockDelayCount };
 }
 
-export function getAutoDropWhenLockDelay(
-  level: number,
+export function updateAutoDrop(autoDrop: AutoDropGameState): AutoDropGameState {
+  return {
+    ...autoDrop,
+    timestamp: Date.now(),
+  };
+}
+
+export function updateAutoDropWithLockDelay(
   autoDrop: AutoDropGameState,
+  level: number,
 ): AutoDropGameState {
   const timestamp = Date.now();
   const lockDelayCount = autoDrop.lockDelayCount + 1;

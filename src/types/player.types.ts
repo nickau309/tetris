@@ -1,17 +1,12 @@
-import type { GameType, InitType } from "./index.types";
+import type { GameType } from "./index.types";
 
-export type PlayerInitState = {
-  type: InitType;
-  rotation: 0;
-  x: null;
-  y: null;
-  collided: false;
-};
+type PlayerInitState = null;
 
 export type PlayerGameState = {
   type: GameType;
   rotation: number;
   x: number;
   y: number;
-  collided: boolean;
 };
+
+export type PlayerState = PlayerInitState | PlayerGameState;

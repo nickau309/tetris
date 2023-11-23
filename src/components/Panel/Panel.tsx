@@ -1,10 +1,13 @@
+import { useStore } from "../../store";
+import { classNames } from "../../utils";
 import ScoreBoard from "../ScoreBoard";
 import StartButton from "../StartButton";
 import TextDescription from "../TextDescription";
-import { classNames } from "../../utils";
 import type { PanelProps } from "./Panel.types";
 
-export default function Panel({ highScore, startGame }: PanelProps) {
+export default function Panel({ startGame }: PanelProps) {
+  const highScore = useStore((state) => state.highScore);
+
   return (
     <div
       className={classNames(

@@ -2,4 +2,4 @@ type HighScoreInitState = null;
 
 export type HighScoreGameState = number[];
 
-export type HighScoreState = HighScoreGameState | HighScoreInitState;
+export type HighScoreState = HighScoreInitState | HighScoreGameState;

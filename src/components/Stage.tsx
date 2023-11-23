@@ -1,9 +1,11 @@
-import Cell from "../Cell";
-import Container from "../Container";
-import { classNames } from "../../utils";
-import type { StageProps } from "./Stage.types";
+import { useStore } from "../store";
+import { classNames } from "../utils";
+import Cell from "./Cell";
+import Container from "./Container";
 
-export default function Stage({ stage }: StageProps) {
+export default function Stage() {
+  const stage = useStore((state) => state.stage);
+
   return (
     <div className="rounded-lg border-8 border-neutral-900 bg-neutral-800">
       <Container width={stage[0].length}>

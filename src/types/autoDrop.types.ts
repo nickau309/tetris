@@ -1,11 +1,9 @@
-export type AutoDropInitState = {
-  timestamp: null;
-  dropTime: null;
-  lockDelayCount: 0;
-};
+type AutoDropInitState = null;
 
 export type AutoDropGameState = {
   timestamp: number;
   dropTime: number;
   lockDelayCount: number;
 };
+
+export type AutoDropState = AutoDropInitState | AutoDropGameState;

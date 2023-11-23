@@ -1,7 +1,12 @@
 import { STAGE_WIDTH, TETROMINOS, WALL_KICK } from "../constants";
 import { checkCollision } from "./stage";
-import type { GamePlayState } from "../contexts";
-import type { GameType, PlayerGameState, Stage } from "../types";
+import type {
+  GameType,
+  InitType,
+  PlayerGameState,
+  PlayerState,
+  Stage,
+} from "../types";
 
 export function getRandomTetrominoBag(): GameType[] {
   const tetrominos: GameType[] = ["I", "J", "L", "O", "S", "T", "Z"];
@@ -14,7 +19,14 @@ export function getRandomTetrominoBag(): GameType[] {
   return tetrominos;
 }
 
-export function getPlayer(stage: Stage, type: GameType): PlayerGameState {
+export function getPlayer(
+  stage: Stage,
+  type: GameType | InitType,
+): PlayerState {
+  if (type === "0") {
+    return null;
+  }
+
   const rotation = 0;
   const tetromino = TETROMINOS[type][rotation];
 
@@ -23,7 +35,6 @@ export function getPlayer(stage: Stage, type: GameType): PlayerGameState {
     rotation,
     x: Math.floor((STAGE_WIDTH - tetromino[0].length) / 2),
     y: 0,
-    collided: false,
   };
 
   if (!checkCollision(player, stage, { x: 0, y: 1 })) {
@@ -60,23 +71,4 @@ export function getRotatedPlayer(
   }
 
   return null;
-}
-
-export function getNextTypes(
-  oldNextTypes: GamePlayState["nextTypes"],
-  stage: GamePlayState["stage"],
-): Pick<GamePlayState, "nextTypes" | "player"> {
-  const [type, ...nextTypes] = oldNextTypes;
-
-  const player = getPlayer(stage, type);
-
-  if (nextTypes.length < 5) {
-    const tetrominoBag = getRandomTetrominoBag();
-    return {
-      player,
-      nextTypes: nextTypes.concat(tetrominoBag),
-    };
-  }
-
-  return { player, nextTypes };
 }
