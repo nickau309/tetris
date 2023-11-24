@@ -15,7 +15,7 @@ This is a web tetris game.
 ### React
 
 - Build the UI of the app
-- Handle the logic of the game with context and custom hooks
+- [Zustand](https://github.com/pmndrs/zustand) is used to manage the state of the game
 - Built-in hooks used:
   - `useCallback`
   - `useContext`
